@@ -8,13 +8,8 @@ from pip._vendor.urllib3 import response
 from labDuckDuckgo import getRequest, parseResponse
 
 URL = 'https://api.duckduckgo.com/?q=presidents%20of%20the%20united%20states&format=json&pretty=1%22'
-#response = requests.get(URL).json
-response = getRequest(URL)
-presidents = parseResponse(response)
+response = requests.get(URL).json
 
-list = []
-for president in presidents:
-    list.append((president))
 
 
 list_of_names_from_response = [response]
@@ -63,6 +58,18 @@ presidentName = ["George Washington"
                  "George W. Bush"
                  "Barack Obama"
                  "Donald J. Trump"]
+
+# looping through the response and appending to actual name of the presidents to the list
+data = []
+for president in presidentName:
+    data.append((president, True))
+
+##testig if the president is in the list from respone
+@pytest.mark.parametrize("president,expected", data)
+
+
+def testEachPresNames(president , expected):
+    assert (president in list_of_names_from_response, expected)
 
 
 def get_list():
@@ -127,7 +134,7 @@ def pres_name_is():
 
 
 def test_notpresent():
-    assert " William " != pres_name_is()
+    assert " William " not in get_list()
 
 
 def not_present():
